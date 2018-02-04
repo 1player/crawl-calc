@@ -6,11 +6,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      str: 11,
-      weapon_skill: 14,
-      fighting_skill: 14,
-      base_damage: 11,
-      enchantment: 5,
+      str: 4,
+      weapon_skill: 0,
+      fighting_skill: 0,
+      base_damage: 4,
+      enchantment: 0,
       slay: 0
     };
   }

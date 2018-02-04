@@ -1,5 +1,6 @@
-import { dice, dice0, constant } from "./expr";
+import { dice0, constant } from "./expr";
 
+// https://github.com/crawl/crawl/blob/7bf63f6c59ec0b09b03f62e0b917198a2f13f101/crawl-ref/source/attack.cc#L1123
 function apply_stat_modifier(damage, str) {
   let mod = constant(39);
 
@@ -12,27 +13,41 @@ function apply_stat_modifier(damage, str) {
   return damage.mul(mod).div(39);
 }
 
+// https://github.com/crawl/crawl/blob/7bf63f6c59ec0b09b03f62e0b917198a2f13f101/crawl-ref/source/attack.cc#L1138
 function apply_weapon_skill(damage, weapon_skill) {
-  let mod = dice(weapon_skill * 100).add(2500);
+  let mod = dice0(constant(weapon_skill * 100).add(1)).add(2500);
 
   return damage.mul(mod).div(2500);
 }
 
+// https://github.com/crawl/crawl/blob/7bf63f6c59ec0b09b03f62e0b917198a2f13f101/crawl-ref/source/attack.cc#L1149
 function apply_fighting_skill(damage, fighting_skill) {
   const base = 3000;
 
-  let mod = dice(fighting_skill * 100).add(base);
-
+  let mod = dice0(constant(fighting_skill * 100).add(1)).add(base);
   return damage.mul(mod).div(base);
 }
 
+// https://github.com/crawl/crawl/blob/7bf63f6c59ec0b09b03f62e0b917198a2f13f101/crawl-ref/source/melee-attack.cc#L1481
+// TODO: This applies might and berserk
 function apply_misc_modifiers(damage) {
   return damage;
 }
 
 // https://github.com/crawl/crawl/blob/7bf63f6c59ec0b09b03f62e0b917198a2f13f101/crawl-ref/source/attack.cc#L1183
-function apply_slaying_bonuses(damage, slaying_bonus) {
-  return damage.add(dice0(slaying_bonus));
+function apply_slaying_bonuses(damage, damage_plus) {
+  if (damage_plus > -1) {
+    return damage.add(dice0(1 + damage_plus));
+  }
+  return damage.sub(dice0(1 - damage_plus));
+}
+
+// https://github.com/crawl/crawl/blob/7bf63f6c59ec0b09b03f62e0b917198a2f13f101/crawl-ref/source/attack.cc#L1199
+// and
+// https://github.com/crawl/crawl/blob/7bf63f6c59ec0b09b03f62e0b917198a2f13f101/crawl-ref/source/melee-attack.cc#L1497
+// TODO: cleaving, WJC, weak, etc.
+function apply_final_multipliers(damage) {
+  return damage;
 }
 
 // https://github.com/crawl/crawl/blob/7bf63f6c59ec0b09b03f62e0b917198a2f13f101/crawl-ref/source/attack.cc#L1442
@@ -40,6 +55,7 @@ function apply_slaying_bonuses(damage, slaying_bonus) {
 //   return damage;
 // }
 
+// https://github.com/crawl/crawl/blob/7bf63f6c59ec0b09b03f62e0b917198a2f13f101/crawl-ref/source/attack.cc#L1286
 export function calc_damage({
   str,
   weapon_skill,
@@ -48,16 +64,14 @@ export function calc_damage({
   enchantment,
   slay
 }) {
-  console.log(arguments);
+  let potential_damage = apply_stat_modifier(constant(base_damage), str);
 
-  let damage = dice(apply_stat_modifier(constant(base_damage), str).add(1));
+  let damage = dice0(potential_damage.add(1));
   damage = apply_weapon_skill(damage, weapon_skill);
   damage = apply_fighting_skill(damage, fighting_skill);
   damage = apply_misc_modifiers(damage);
   damage = apply_slaying_bonuses(damage, slay + enchantment);
-  // TODO https://github.com/crawl/crawl/blob/db02301618d730d66a36defae39f69395b5df7a6/crawl-ref/source/melee-attack.cc#L1493
-  // TODO https://github.com/crawl/crawl/blob/db02301618d730d66a36defae39f69395b5df7a6/crawl-ref/source/melee-attack.cc#L1477
-  // damage = apply_brand(damage);
+  damage = apply_final_multipliers(damage);
 
   return damage;
 }
