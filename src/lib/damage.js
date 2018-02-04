@@ -1,4 +1,5 @@
-import { dice0, constant } from "./expr";
+import { dice, dice0, constant } from "./expr";
+import * as brands from "./brands";
 
 // https://github.com/crawl/crawl/blob/7bf63f6c59ec0b09b03f62e0b917198a2f13f101/crawl-ref/source/attack.cc#L1123
 function apply_stat_modifier(damage, str) {
@@ -50,12 +51,9 @@ function apply_final_multipliers(damage) {
   return damage;
 }
 
-// https://github.com/crawl/crawl/blob/7bf63f6c59ec0b09b03f62e0b917198a2f13f101/crawl-ref/source/attack.cc#L1442
-// function apply_brand(damage) {
-//   return damage;
-// }
-
 // https://github.com/crawl/crawl/blob/7bf63f6c59ec0b09b03f62e0b917198a2f13f101/crawl-ref/source/attack.cc#L1286
+// and
+// https://github.com/crawl/crawl/blob/db02301618d730d66a36defae39f69395b5df7a6/crawl-ref/source/melee-attack.cc#L353
 export function calc_damage({
   str,
   weapon_skill,
@@ -74,4 +72,36 @@ export function calc_damage({
   damage = apply_final_multipliers(damage);
 
   return damage;
+}
+
+// https://github.com/crawl/crawl/blob/7bf63f6c59ec0b09b03f62e0b917198a2f13f101/crawl-ref/source/attack.cc#L1442
+export function calc_brand_damage(damage_done, brand) {
+  switch (brand) {
+    // https://github.com/crawl/crawl/blob/7bf63f6c59ec0b09b03f62e0b917198a2f13f101/crawl-ref/source/attack.cc#L1713
+    // Does not take into account the defender resistance, obviously
+    case brands.FLAMING:
+    case brands.FREEZING:
+      return dice0(damage_done)
+        .div(2)
+        .add(1);
+
+    case brands.HOLY_WRATH:
+      return dice0(damage_done.mul(15))
+        .div(10)
+        .add(1);
+
+    case brands.ELECTROCUTION:
+      return dice0(13).add(8);
+
+    // https://github.com/crawl/crawl/blob/7bf63f6c59ec0b09b03f62e0b917198a2f13f101/crawl-ref/source/attack.cc#L910
+    case brands.DRAINING:
+      return dice(damage_done).div(2);
+
+    case brands.VORPAL:
+      return dice0(damage_done)
+        .div(3)
+        .add(1);
+  }
+
+  return null;
 }
