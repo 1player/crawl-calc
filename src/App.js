@@ -72,8 +72,8 @@ class DamageResult extends Component {
   render() {
     return (
       <table>
-        {this.renderRow("Average damage", "avg")}
-        {this.renderRow("Max damage", "max")}
+        {this.renderRow("Average", "avg")}
+        {this.renderRow("Maximum", "max")}
       </table>
     );
   }
@@ -178,7 +178,7 @@ class App extends Component {
         </section>
 
         <section class="my-4 border-t pt-4">
-          <h2 class="mb-4">Damage</h2>
+          <h2 class="mb-4">Estimated damage</h2>
           <DamageResult
             damage={damage}
             brandDamage={brandDamage}
