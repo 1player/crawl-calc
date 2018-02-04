@@ -1,0 +1,42 @@
+let melee_weapons = [
+  { name: "club", base_damage: 5, to_hit: 3, speed: 13 },
+  { name: "mace", base_damage: 8, to_hit: 3, speed: 14 },
+  { name: "flail", base_damage: 10, to_hit: 0, speed: 14 },
+  { name: "morningstar", base_damage: 13, to_hit: -2, speed: 15 },
+  { name: "demon whip", base_damage: 11, to_hit: 1, speed: 11 },
+  { name: "sacred scourge", base_damage: 12, to_hit: 0, speed: 11 },
+  { name: "dire flail", base_damage: 13, to_hit: -3, speed: 13 },
+  { name: "eveningstar", base_damage: 15, to_hit: -1, speed: 15 },
+  { name: "great mace", base_damage: 17, to_hit: -4, speed: 17 },
+  { name: "giant club", base_damage: 20, to_hit: -6, speed: 16 },
+  { name: "giant spiked club", base_damage: 22, to_hit: -7, speed: 18 },
+
+  { name: "dagger", base_damage: 4, to_hit: 6, speed: 10 },
+  { name: "quick blade", base_damage: 5, to_hit: 6, speed: 7 },
+  { name: "short sword", base_damage: 6, to_hit: 4, speed: 11 },
+  { name: "rapier", base_damage: 8, to_hit: 4, speed: 12 },
+
+  { name: "falchion", base_damage: 7, to_hit: 2, speed: 13 },
+  { name: "long sword", base_damage: 9, to_hit: 1, speed: 14 },
+  { name: "scimitar", base_damage: 11, to_hit: 0, speed: 14 },
+  { name: "demon blade", base_damage: 12, to_hit: -1, speed: 13 },
+  { name: "eudemon blade", base_damage: 13, to_hit: -2, speed: 12 },
+  { name: "double sword", base_damage: 14, to_hit: -1, speed: 15 },
+  { name: "great sword", base_damage: 15, to_hit: -3, speed: 17 },
+  { name: "triple sword", base_damage: 17, to_hit: -4, speed: 19 },
+
+  { name: "hand axe", base_damage: 7, to_hit: 3, speed: 13 },
+  { name: "war axe", base_damage: 11, to_hit: 0, speed: 15 },
+  { name: "broad axe", base_damage: 13, to_hit: -2, speed: 16 },
+  { name: "battleaxe", base_damage: 15, to_hit: -4, speed: 17 },
+  { name: "executioner's axe", base_damage: 18, to_hit: -6, speed: 20 },
+
+  { name: "spear", base_damage: 6, to_hit: 4, speed: 11 },
+  { name: "trident", base_damage: 9, to_hit: 1, speed: 13 },
+  { name: "halberd", base_damage: 13, to_hit: -3, speed: 15 },
+  { name: "scythe", base_damage: 14, to_hit: -4, speed: 20 },
+  { name: "demon trident", base_damage: 12, to_hit: 1, speed: 13 },
+  { name: "trishula", base_damage: 13, to_hit: 0, speed: 13 },
+  { name: "glaive", base_damage: 15, to_hit: -3, speed: 17 },
+  { name: "bardiche", base_damage: 18, to_hit: -6, speed: 20 }
+];

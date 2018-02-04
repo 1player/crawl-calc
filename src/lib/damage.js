@@ -1,9 +1,5 @@
 import { dice, dice0, constant } from "./expr";
 
-function base_damage(weapon_damage) {
-  return constant(weapon_damage);
-}
-
 function apply_stat_modifier(damage, str) {
   let mod = constant(39);
 
